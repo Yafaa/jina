@@ -272,6 +272,10 @@ class NumpyIndexer(BaseNumpyIndexer):
             Distance (the smaller the better) is returned, not the score.
 
         """
+        if self.size == 0:
+            query_count = len(keys)
+            result_count = 0
+            return np.empty((query_count, result_count)), np.empty((query_count, result_count))
         if self.metric not in {'cosine', 'euclidean'} or self.backend == 'scipy':
             dist = self._cdist(keys, self.query_handler)
         elif self.metric == 'euclidean':
